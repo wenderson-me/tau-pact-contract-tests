@@ -2,7 +2,7 @@ name: Pact Contract Tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, fix/pact-contract-tests]
   pull_request:
     branches: [main]
 
