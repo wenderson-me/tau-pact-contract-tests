@@ -1,0 +1,38 @@
+services:
+  tests:
+    build: .
+    container_name: pact-tests
+    volumes:
+      - ./src:/app/src:ro
+      - ./__tests__:/app/__tests__
+    command: sh -c "npm run test:consumer && npm run test:provider"
+
+  consumer-tests:
+    build: .
+    container_name: pact-consumer-tests
+    volumes:
+      - ./src:/app/src:ro
+      - ./__tests__:/app/__tests__
+    command: npm run test:consumer
+
+  provider-tests:
+    build: .
+    container_name: pact-provider-tests
+    volumes:
+      - ./src:/app/src:ro
+      - ./__tests__:/app/__tests__
+    command: npm run test:provider
+
+  dev:
+    build: .
+    container_name: pact-dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+      - "8083:8083"
+    command: sh
+    stdin_open: true
+    tty: true

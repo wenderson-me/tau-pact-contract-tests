@@ -30,6 +30,23 @@ $ npm run test:provider
 
 ```
 
+### Docker 🐳
+
+```ruby
+# Build and run all tests
+$ docker compose run --rm tests
+
+# Run only consumer tests
+$ docker compose run --rm consumer-tests
+
+# Run only provider tests
+$ docker compose run --rm provider-tests
+
+# Development environment (interactive shell)
+$ docker compose run --rm dev
+
+```
+
 ## Stack
 
  <p align="center">

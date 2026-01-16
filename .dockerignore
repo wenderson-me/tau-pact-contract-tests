@@ -1,0 +1,31 @@
+# Dependências
+node_modules/
+npm-debug.log*
+
+# Arquivos de teste/logs temporários
+__tests__/contract/logs/*.log
+coverage/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Outros
+*.md
+LICENSE
+repomix-output.xml
