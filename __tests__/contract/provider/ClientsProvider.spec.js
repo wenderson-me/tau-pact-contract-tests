@@ -27,10 +27,16 @@ describe("Clients Service Verification", () => {
       return Promise.resolve()
     }
 
+    const clearData = () => {
+      clientRepository.clear()
+      return Promise.resolve()
+    }
+
     const stateHandlers = {
       "i have a list of clients": resetData,
       "i have a client for ID": resetData,
-      "i create a new client": resetData
+      "i create a new client": resetData,
+      "client does not exist": clearData
     }
 
     let opts = {

@@ -223,4 +223,131 @@ describe('Clients Service', () => {
       expect(response.status).toEqual(204)
     })
   })
+
+  describe("GET Client - Not Found", () => {
+
+    beforeEach(() => {
+      const interaction = {
+        state: "client does not exist",
+        uponReceiving: "a request for a non-existent client",
+        withRequest: {
+          method: "GET",
+          path: "/clients/999",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+          },
+        },
+        willRespondWith: {
+          status: 404,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: { message: "Client not found!" },
+        },
+      }
+      return provider.addInteraction(interaction)
+    })
+
+    test("returns 404 when client not found", async () => {
+      const response = await getClient(999)
+      expect(response.status).toEqual(404)
+      expect(response.data.message).toEqual("Client not found!")
+    })
+  })
+
+  describe("POST Client - Validation Error", () => {
+
+    const INVALID_BODY = {
+      lastName: "NoFirstName",
+      age: 30
+    }
+
+    beforeEach(() => {
+      const interaction = {
+        state: "i create a new client",
+        uponReceiving: "a request to create client without firstName",
+        withRequest: {
+          method: "POST",
+          path: "/clients",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          body: INVALID_BODY,
+        },
+        willRespondWith: {
+          status: 400,
+          body: Matchers.like({ message: "Missing first name!" }).contents,
+        },
+      }
+      return provider.addInteraction(interaction)
+    })
+
+    test("returns 400 when firstName is missing", async () => {
+      const response = await postClient(INVALID_BODY)
+      expect(response.status).toEqual(400)
+      expect(response.data.message).toEqual("Missing first name!")
+    })
+  })
+
+  describe("PUT Client - Not Found", () => {
+
+    const PUT_BODY = { firstName: "Ghost" }
+
+    beforeEach(() => {
+      const interaction = {
+        state: "client does not exist",
+        uponReceiving: "a request to update a non-existent client",
+        withRequest: {
+          method: "PUT",
+          path: "/clients/999",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          body: PUT_BODY,
+        },
+        willRespondWith: {
+          status: 404,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: { message: "Client not found!" },
+        },
+      }
+      return provider.addInteraction(interaction)
+    })
+
+    test("returns 404 when updating non-existent client", async () => {
+      const response = await putClient(999, PUT_BODY)
+      expect(response.status).toEqual(404)
+      expect(response.data.message).toEqual("Client not found!")
+    })
+  })
+
+  describe("DELETE Client - Not Found", () => {
+
+    beforeEach(() => {
+      const interaction = {
+        state: "client does not exist",
+        uponReceiving: "a request to delete a non-existent client",
+        withRequest: {
+          method: "DELETE",
+          path: "/clients/999",
+        },
+        willRespondWith: {
+          status: 404,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: { message: "Client not found!" },
+        },
+      }
+      return provider.addInteraction(interaction)
+    })
+
+    test("returns 404 when deleting non-existent client", async () => {
+      const response = await deleteClient(999)
+      expect(response.status).toEqual(404)
+      expect(response.data.message).toEqual("Client not found!")
+    })
+  })
 })

@@ -132,6 +132,89 @@
         "headers": {
         }
       }
+    },
+    {
+      "description": "a request for a non-existent client",
+      "providerState": "client does not exist",
+      "request": {
+        "method": "GET",
+        "path": "/clients/999",
+        "headers": {
+          "Accept": "application/json, text/plain, */*"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "message": "Client not found!"
+        }
+      }
+    },
+    {
+      "description": "a request to create client without firstName",
+      "providerState": "i create a new client",
+      "request": {
+        "method": "POST",
+        "path": "/clients",
+        "headers": {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        "body": {
+          "lastName": "NoFirstName",
+          "age": 30
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+        },
+        "body": {
+          "message": "Missing first name!"
+        }
+      }
+    },
+    {
+      "description": "a request to update a non-existent client",
+      "providerState": "client does not exist",
+      "request": {
+        "method": "PUT",
+        "path": "/clients/999",
+        "headers": {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        "body": {
+          "firstName": "Ghost"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "message": "Client not found!"
+        }
+      }
+    },
+    {
+      "description": "a request to delete a non-existent client",
+      "providerState": "client does not exist",
+      "request": {
+        "method": "DELETE",
+        "path": "/clients/999"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "message": "Client not found!"
+        }
+      }
     }
   ],
   "metadata": {
