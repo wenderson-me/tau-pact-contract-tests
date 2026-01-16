@@ -7,7 +7,7 @@ global.provider = new Pact({
   log: path.resolve(process.cwd(), "__tests__/contract/logs", "mockserver-integration.log"),
   dir: path.resolve(process.cwd(), "__tests__/contract/pacts"),
   spec: 2,
-  logLevel: 'INFO',
+  logLevel: 'DEBUG',
   pactfileWriteMode: "overwrite",
   consumer: "Frontend",
   provider: "ClientsService",

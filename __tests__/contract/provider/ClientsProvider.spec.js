@@ -1,26 +1,32 @@
 const path = require("path")
-const { Verifier, Matchers } = require("@pact-foundation/pact")
+const { Verifier } = require("@pact-foundation/pact")
 const { server, importData } = require("../../../src/provider")
-const { postClient } = require("../../../src/consumer")
 
-const SERVER_URL = "http://localhost:8081"
+const PORT = 8083
+const SERVER_URL = `http://localhost:${PORT}`
+const PACT_FILE = path.resolve(process.cwd(), "__tests__/contract/pacts/frontend-clientsservice.json")
 
-server.listen(8081, () => {
+let serverInstance
+
+beforeAll((done) => {
   importData()
-  console.log(`Clients Service listening on ${SERVER_URL}`)
+  serverInstance = server.listen(PORT, () => {
+    console.log(`Clients Service listening on ${SERVER_URL}`)
+    done()
+  })
+})
+
+afterAll((done) => {
+  serverInstance.close(done)
 })
 
 describe("Clients Service Verification", () => {
   it("validates the expectations of Client Service", () => {
     let opts = {
-      provider: "Clients Service",
-      logLevel: "DEBUG",
+      provider: "ClientsService",
+      logLevel: "INFO",
       providerBaseUrl: SERVER_URL,
-      pactUrls: ['http://localhost:8080/pacts/provider/ClientsService/consumer/Frontend/latest'],
-      consumerVersionTags: ["dev"],
-      providerVersionTags: ["dev"],
-      publishVerificationResult: true,
-      providerVersion: "1.0.1"
+      pactUrls: [PACT_FILE],
     }
     return new Verifier(opts).verifyProvider().then(output => {
       console.log("Pact Verification Complete")

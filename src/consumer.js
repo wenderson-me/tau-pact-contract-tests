@@ -1,7 +1,7 @@
 const axios = require('axios')
 const express = require("express")
 const server = express()
-const getApiEndpoint = "http://localhost:8081"
+const getApiEndpoint = process.env.API_ENDPOINT || "http://localhost:8081"
 
 const getClients = async () => {
   const res = await axios
