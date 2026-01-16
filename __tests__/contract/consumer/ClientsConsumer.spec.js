@@ -6,7 +6,7 @@ const { Pact, Matchers } = require("@pact-foundation/pact")
 const PACT_PORT = 8082
 process.env.API_ENDPOINT = `http://localhost:${PACT_PORT}`
 
-const { getClients, getClient, postClient } = require("../../../src/consumer")
+const { getClients, getClient, postClient, putClient, deleteClient } = require("../../../src/consumer")
 
 const provider = new Pact({
   port: PACT_PORT,
@@ -154,6 +154,73 @@ describe('Clients Service', () => {
       console.log(response.data)
       expect(response.data.id).toEqual(4)
       expect(response.status).toEqual(200)
+    })
+  })
+
+  describe("PUT Client", () => {
+
+    const PUT_BODY = {
+      firstName: "Lisa Marie",
+      age: 9
+    }
+    const PUT_EXPECTED_BODY = {
+      firstName: "Lisa Marie",
+      lastName: "Simpson",
+      age: 9,
+      id: 1
+    }
+
+    beforeEach(() => {
+      const interaction = {
+        state: "i have a client for ID",
+        uponReceiving: "a request to update a client",
+        withRequest: {
+          method: "PUT",
+          path: "/clients/1",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          body: PUT_BODY,
+        },
+        willRespondWith: {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: Matchers.like(PUT_EXPECTED_BODY).contents,
+        },
+      }
+      return provider.addInteraction(interaction)
+    })
+
+    test("returns updated client", async () => {
+      const response = await putClient(1, PUT_BODY)
+      expect(response.data.firstName).toEqual("Lisa Marie")
+      expect(response.data.age).toEqual(9)
+      expect(response.status).toEqual(200)
+    })
+  })
+
+  describe("DELETE Client", () => {
+
+    beforeEach(() => {
+      const interaction = {
+        state: "i have a client for ID",
+        uponReceiving: "a request to delete a client",
+        withRequest: {
+          method: "DELETE",
+          path: "/clients/1",
+        },
+        willRespondWith: {
+          status: 204,
+        },
+      }
+      return provider.addInteraction(interaction)
+    })
+
+    test("returns 204 no content", async () => {
+      const response = await deleteClient(1)
+      expect(response.status).toEqual(204)
     })
   })
 })

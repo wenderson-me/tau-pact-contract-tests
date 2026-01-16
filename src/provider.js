@@ -64,6 +64,38 @@ server.post("/clients", (req, res) => {
   res.json(client)
 })
 
+// Update an existing Client
+server.put("/clients/:id", (req, res) => {
+  const id = req.params.id
+  const { id: _, ...safeUpdates } = req.body
+  const client = clientRepository.getById(id)
+
+  if (!client) {
+    res.status(404)
+    res.send({ message: "Client not found!" })
+    return
+  }
+
+  Object.assign(client, safeUpdates)
+
+  res.json(client)
+})
+
+// Delete a Client
+server.delete("/clients/:id", (req, res) => {
+  const id = req.params.id
+  const client = clientRepository.getById(id)
+
+  if (!client) {
+    res.status(404)
+    res.send({ message: "Client not found!" })
+    return
+  }
+
+  clientRepository.remove(id)
+  res.status(204).end()
+})
+
 module.exports = {
   server,
   importData,

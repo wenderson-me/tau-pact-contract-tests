@@ -92,6 +92,46 @@
           "id": 4
         }
       }
+    },
+    {
+      "description": "a request to update a client",
+      "providerState": "i have a client for ID",
+      "request": {
+        "method": "PUT",
+        "path": "/clients/1",
+        "headers": {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        "body": {
+          "firstName": "Lisa Marie",
+          "age": 9
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "firstName": "Lisa Marie",
+          "lastName": "Simpson",
+          "age": 9,
+          "id": 1
+        }
+      }
+    },
+    {
+      "description": "a request to delete a client",
+      "providerState": "i have a client for ID",
+      "request": {
+        "method": "DELETE",
+        "path": "/clients/1"
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+        }
+      }
     }
   ],
   "metadata": {

@@ -39,10 +39,28 @@ const postClient = async (body) => {
     return res
 }
 
+const putClient = async (id, body) => {
+  const res = await axios
+    .put(`${getApiEndpoint}/clients/${id}`, body, { 'Content-Type': 'application/json;charset=utf-8' })
+    .then((res) => res)
+    .catch((err) => err.response)
+  return res
+}
+
+const deleteClient = async (id) => {
+  const res = await axios
+    .delete(`${getApiEndpoint}/clients/${id}`)
+    .then((res) => res)
+    .catch((err) => err.response)
+  return res
+}
+
 
 module.exports = {
   server,
   getClients,
   postClient,
   getClient,
+  putClient,
+  deleteClient
 };
