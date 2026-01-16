@@ -1,11 +1,12 @@
 const axios = require('axios')
 const express = require("express")
 const server = express()
-const getApiEndpoint = process.env.API_ENDPOINT || "http://localhost:8081"
+
+const getApiEndpoint = () => process.env.API_ENDPOINT || "http://localhost:8081"
 
 const getClients = async () => {
   const res = await axios
-    .get(`${getApiEndpoint}/clients`)
+    .get(`${getApiEndpoint()}/clients`)
     .then((res) => res)
     .catch((err) => err.response)
   return res
@@ -13,7 +14,7 @@ const getClients = async () => {
 
 const getClient = async (id) => {
   const res = await axios
-    .get(`${getApiEndpoint}/clients/${id}`)
+    .get(`${getApiEndpoint()}/clients/${id}`)
     .then((res) => res)
     .catch((err) => err.response)
   return res
@@ -21,7 +22,7 @@ const getClient = async (id) => {
 
 const postClient = async (body) => {
   const res = await axios
-    .post(`${getApiEndpoint}/clients`, body, { 'Content-Type': 'application/json;charset=utf-8' })
+    .post(`${getApiEndpoint()}/clients`, body, { 'Content-Type': 'application/json;charset=utf-8' })
     .then((res) => res)
     .catch((err) => err.response)
   return res
@@ -29,7 +30,7 @@ const postClient = async (body) => {
 
 const putClient = async (id, body) => {
   const res = await axios
-    .put(`${getApiEndpoint}/clients/${id}`, body, { 'Content-Type': 'application/json;charset=utf-8' })
+    .put(`${getApiEndpoint()}/clients/${id}`, body, { 'Content-Type': 'application/json;charset=utf-8' })
     .then((res) => res)
     .catch((err) => err.response)
   return res
@@ -37,7 +38,7 @@ const putClient = async (id, body) => {
 
 const deleteClient = async (id) => {
   const res = await axios
-    .delete(`${getApiEndpoint}/clients/${id}`)
+    .delete(`${getApiEndpoint()}/clients/${id}`)
     .then((res) => res)
     .catch((err) => err.response)
   return res

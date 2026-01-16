@@ -1,0 +1,308 @@
+{
+  "consumer": {
+    "name": "Frontend"
+  },
+  "interactions": [
+    {
+      "description": "a request for a non-existent client",
+      "providerStates": [
+        {
+          "name": "client does not exist"
+        }
+      ],
+      "request": {
+        "headers": {
+          "Accept": "application/json, text/plain, */*"
+        },
+        "method": "GET",
+        "path": "/clients/999"
+      },
+      "response": {
+        "body": {
+          "message": "Client not found!"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 404
+      }
+    },
+    {
+      "description": "a request for all clients",
+      "providerStates": [
+        {
+          "name": "i have a list of clients"
+        }
+      ],
+      "request": {
+        "headers": {
+          "Accept": "application/json, text/plain, */*"
+        },
+        "method": "GET",
+        "path": "/clients"
+      },
+      "response": {
+        "body": [
+          {
+            "age": 8,
+            "firstName": "Lisa",
+            "id": 1,
+            "lastName": "Simpson"
+          },
+          {
+            "age": 30,
+            "firstName": "Wonder",
+            "id": 2,
+            "lastName": "Woman"
+          },
+          {
+            "age": 39,
+            "firstName": "Homer",
+            "id": 3,
+            "lastName": "Simpson"
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request for id client",
+      "providerStates": [
+        {
+          "name": "i have a client for ID"
+        }
+      ],
+      "request": {
+        "headers": {
+          "Accept": "application/json, text/plain, */*"
+        },
+        "method": "GET",
+        "path": "/clients/1"
+      },
+      "response": {
+        "body": {
+          "age": 8,
+          "firstName": "Lisa",
+          "id": 1,
+          "lastName": "Simpson"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request to create client with firstname and lastname",
+      "providerStates": [
+        {
+          "name": "i create a new client"
+        }
+      ],
+      "request": {
+        "body": {
+          "age": 25,
+          "firstName": "Wendy",
+          "lastName": "Monteiro"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/clients"
+      },
+      "response": {
+        "body": {
+          "age": 25,
+          "firstName": "Wendy",
+          "id": 4,
+          "lastName": "Monteiro"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "status": {}
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request to create client without firstName",
+      "providerStates": [
+        {
+          "name": "i create a new client"
+        }
+      ],
+      "request": {
+        "body": {
+          "age": 30,
+          "lastName": "NoFirstName"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/clients"
+      },
+      "response": {
+        "body": {
+          "message": "Missing first name!"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "status": {}
+        },
+        "status": 400
+      }
+    },
+    {
+      "description": "a request to delete a client",
+      "providerStates": [
+        {
+          "name": "i have a client for ID"
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/clients/1"
+      },
+      "response": {
+        "status": 204
+      }
+    },
+    {
+      "description": "a request to delete a non-existent client",
+      "providerStates": [
+        {
+          "name": "client does not exist"
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "path": "/clients/999"
+      },
+      "response": {
+        "body": {
+          "message": "Client not found!"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 404
+      }
+    },
+    {
+      "description": "a request to update a client",
+      "providerStates": [
+        {
+          "name": "i have a client for ID"
+        }
+      ],
+      "request": {
+        "body": {
+          "age": 9,
+          "firstName": "Lisa Marie"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "PUT",
+        "path": "/clients/1"
+      },
+      "response": {
+        "body": {
+          "age": 9,
+          "firstName": "Lisa Marie",
+          "id": 1,
+          "lastName": "Simpson"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {},
+          "status": {}
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "a request to update a non-existent client",
+      "providerStates": [
+        {
+          "name": "client does not exist"
+        }
+      ],
+      "request": {
+        "body": {
+          "firstName": "Ghost"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "PUT",
+        "path": "/clients/999"
+      },
+      "response": {
+        "body": {
+          "message": "Client not found!"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "status": 404
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "13.2.0"
+    },
+    "pactRust": {
+      "ffi": "0.4.22",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "ClientsService"
+  }
+}

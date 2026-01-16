@@ -4,7 +4,7 @@ const { server, importData, clientRepository } = require("../../../src/provider"
 
 const PORT = 8083
 const SERVER_URL = `http://localhost:${PORT}`
-const PACT_FILE = path.resolve(process.cwd(), "__tests__/contract/pacts/frontend-clientsservice.json")
+const PACT_FILE = path.resolve(process.cwd(), "__tests__/contract/pacts/Frontend-ClientsService.json")
 
 let serverInstance
 
