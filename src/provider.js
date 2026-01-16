@@ -58,7 +58,7 @@ server.post("/clients", (req, res) => {
     return
   }
 
-  client.id = clientRepository.fetchAll().length
+  client.id = clientRepository.fetchAll().length + 1
   clientRepository.add(client)
 
   res.json(client)
